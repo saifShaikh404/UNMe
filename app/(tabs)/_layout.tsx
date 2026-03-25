@@ -133,7 +133,7 @@ export default function TabLayout() {
               <ThemedText
                 type="title"
                 style={[styles.headerTitle, { color: tintColor }]}>
-                Me
+                Us
               </ThemedText>
             </View>
           ),
@@ -157,7 +157,7 @@ export default function TabLayout() {
               <ThemedText
                 type="title"
                 style={[styles.headerTitle, { color: tintColor }]}>
-                Admin
+                Me
               </ThemedText>
             </View>
           ),

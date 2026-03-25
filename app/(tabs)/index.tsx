@@ -36,43 +36,24 @@ export default function HomeScreen() {
       text: "Hello 👋",
       sender: "receiver",
     },
-    {
-      type: "text",
-      text: "Welcome to the chat interface.",
-      sender: "receiver",
-    },
-
     // IMAGE MESSAGE
     {
       type: "image",
       uri: "https://picsum.photos/400/400",
       sender: "receiver",
     },
-
-    {
-      type: "text",
-      text: "Here is an image example.",
-      sender: "receiver",
-    },
-
     // VIDEO MESSAGE
     {
       type: "video",
       uri: "https://www.w3schools.com/html/mov_bbb.mp4",
       sender: "sender",
     },
-
-    {
-      type: "text",
-      text: "Nice UI!",
-      sender: "sender",
-    },
+    
   ]);
 
   const [loadingMore, setLoadingMore] = useState(false);
 
   /* DOWNLOAD MEDIA */
-
   const downloadMedia = async (uri: string) => {
     try {
       const permission = await MediaLibrary.requestPermissionsAsync();
@@ -97,7 +78,6 @@ export default function HomeScreen() {
   };
 
   /* SEND TEXT MESSAGE */
-
   const handleSend = () => {
     if (!message.trim()) return;
 
@@ -115,7 +95,6 @@ export default function HomeScreen() {
   };
 
   /* PICK MEDIA */
-
   const pickMedia = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -124,9 +103,7 @@ export default function HomeScreen() {
 
     if (!result.canceled) {
       const asset = result.assets[0];
-
       const type = asset.type === "video" ? "video" : "image";
-
       const newMessage = {
         type,
         uri: asset.uri,
@@ -134,7 +111,6 @@ export default function HomeScreen() {
       };
 
       setMessages((prev) => [newMessage, ...prev]);
-
       setTimeout(() => {
         flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
       }, 50);
@@ -142,12 +118,10 @@ export default function HomeScreen() {
   };
 
   /* LOAD MORE MESSAGES */
-
   const loadMoreMessages = async () => {
     if (loadingMore) return;
 
     setLoadingMore(true);
-
     setTimeout(() => {
       const olderMessages = [
         { type: "text", text: "Older message 1", sender: "receiver" },
@@ -155,13 +129,11 @@ export default function HomeScreen() {
       ];
 
       setMessages((prev) => [...prev, ...olderMessages]);
-
       setLoadingMore(false);
     }, 1000);
   };
 
   /* RENDER MESSAGE */
-
   const renderMessage = ({ item }: any) => {
     const isSender = item.sender === "sender";
 
@@ -230,50 +202,8 @@ export default function HomeScreen() {
               colors.borderTop,
               colors.borderLeft,
             ),
-          ]}>
-          <View style={styles.boxHeader}>
-            <Text style={[styles.boxLabel, { color: colors.text }]}>
-              Feature A
-            </Text>
-
-            <TouchableOpacity
-              style={[
-                styles.smallButton,
-                createBoxyStyle(
-                  colors.primary,
-                  colors.borderDark,
-                  colors.borderDark,
-                  6,
-                  colors.borderTop,
-                  colors.borderLeft,
-                ),
-              ]}>
-              <Text style={styles.buttonText}>Go</Text>
-            </TouchableOpacity>
-          </View>
-
-          <Image
-            source={{ uri: "https://via.placeholder.com/120" }}
-            style={styles.boxImage}
-          />
-
-          <Text style={[styles.imageLabel, { color: colors.icon }]}>
-            Quick Access
-          </Text>
-        </View>
-
-        <View
-          style={[
-            styles.topBox,
-            createBoxyStyle(
-              colors.cardBackground,
-              colors.borderBottom,
-              colors.borderRight,
-              10,
-              colors.borderTop,
-              colors.borderLeft,
-            ),
-          ]}>
+          ]}
+        >
           <View style={styles.boxHeader}>
             <Text style={[styles.boxLabel, { color: colors.text }]}>
               Feature B
@@ -302,6 +232,60 @@ export default function HomeScreen() {
 
           <Text style={[styles.imageLabel, { color: colors.icon }]}>
             Dashboard
+          </Text>
+        </View>
+        
+        <View
+          style={[
+            styles.topBox,
+            createBoxyStyle(
+              colors.cardBackground,
+              colors.borderBottom,
+              colors.borderRight,
+              10,
+              colors.borderTop,
+              colors.borderLeft,
+            ),
+          ]}
+        >
+          <View style={styles.boxHeader}>
+            <Text style={[styles.boxLabel, { color: colors.text }]}>
+              Feature A
+            </Text>
+
+            {/* STATUS INDICATOR */}
+            <View style={styles.statusContainer}>
+              <View
+                style={[
+                  styles.statusDot,
+                  { backgroundColor: "#ff3b30" }, // 🔴 Offline (default)
+                ]}
+              />
+              <Text style={[styles.statusText, { color: colors.text }]}>
+                Offline
+              </Text>
+
+              {/* ✅ ONLINE (use later)
+              <View
+                style={[
+                  styles.statusDot,
+                  { backgroundColor: "#34c759" }, // 🟢 Online
+                ]}
+              />
+              <Text style={[styles.statusText, { color: colors.text }]}>
+                Online
+              </Text>
+              */}
+            </View>
+          </View>
+
+          <Image
+            source={{ uri: "https://via.placeholder.com/120" }}
+            style={styles.boxImage}
+          />
+
+          <Text style={[styles.imageLabel, { color: colors.icon }]}>
+            Quick Access
           </Text>
         </View>
       </View>
@@ -401,6 +385,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+
+  statusContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 50,
+  },
+
+  statusText: {
+    fontSize: 12,
+    fontWeight: "600",
   },
 
   boxLabel: { fontSize: 14, fontWeight: "600" },
